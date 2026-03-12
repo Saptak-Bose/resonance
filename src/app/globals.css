@@ -7,8 +7,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-poppins);
-  --font-mono: var(--font-poppins);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-geist-mono);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -67,7 +67,7 @@
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.686 0 0);
-  --chart-1: #01888e;
+  --chart-1: oklch(0.571 0.097 200);
   --chart-2: oklch(0.432 0.165 292);
   --chart-3: oklch(0.779 0.108 350);
   --chart-4: oklch(0.839 0.147 115);
@@ -118,7 +118,7 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
+    @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
