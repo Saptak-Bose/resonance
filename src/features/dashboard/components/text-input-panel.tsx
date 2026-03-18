@@ -3,7 +3,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { TEXT_MAX_LENGTH } from "@/lib/constants";
+import { PRICE_PER_UNIT, TEXT_MAX_LENGTH } from "@/lib/constants";
 import { Coins } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -41,7 +41,7 @@ export default function TextInputPanel({}: Props) {
                 ) : (
                   <>
                     <span className="tabular-nums">
-                      ₹{(text.length * 0.007).toFixed(4)}
+                      ₹{(text.length * PRICE_PER_UNIT).toFixed(4)}
                     </span>{" "}
                     approx.
                   </>
