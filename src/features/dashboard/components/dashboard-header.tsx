@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { SUPPORT_EMAIL_LINK } from "@/lib/constants";
 import { useUser } from "@clerk/nextjs";
 import { Headphones, ThumbsUp } from "lucide-react";
 import Link from "next/link";
@@ -20,13 +21,13 @@ export default function DashboardHeader({}: Props) {
       </div>
       <div className="lg:flex items-center gap-3 hidden">
         <Button variant={"outline"} size={"sm"} asChild>
-          <Link href={"mailto:cunningsap002+resonancesupport@gmail.com"}>
+          <Link href={SUPPORT_EMAIL_LINK}>
             <ThumbsUp />
             <span className="hidden lg:block">Feedback</span>
           </Link>
         </Button>
         <Button variant={"outline"} size={"sm"} asChild>
-          <Link href={"mailto:cunningsap002+resonancesupport@gmail.com"}>
+          <Link href={SUPPORT_EMAIL_LINK}>
             <Headphones />
             <span className="hidden lg:block">Need Help?</span>
           </Link>

@@ -3,6 +3,7 @@ import { SidebarTrigger } from "../ui/sidebar";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { Headphones, ThumbsUp } from "lucide-react";
+import { SUPPORT_EMAIL_LINK } from "@/lib/constants";
 
 type Props = {
   title: string;
@@ -23,13 +24,13 @@ export default function PageHeader({ title, className }: Props) {
       </div>
       <div className="flex items-center gap-3">
         <Button variant={"outline"} size={"sm"} asChild>
-          <Link href={"mailto:cunningsap002+resonancesupport@gmail.com"}>
+          <Link href={SUPPORT_EMAIL_LINK}>
             <ThumbsUp />
             <span className="hidden lg:block">Feedback</span>
           </Link>
         </Button>
         <Button variant={"outline"} size={"sm"} asChild>
-          <Link href={"mailto:cunningsap002+resonancesupport@gmail.com"}>
+          <Link href={SUPPORT_EMAIL_LINK}>
             <Headphones />
             <span className="hidden lg:block">Need Help?</span>
           </Link>

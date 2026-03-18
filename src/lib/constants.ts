@@ -6,7 +6,9 @@ import {
   Settings,
   Volume2,
 } from "lucide-react";
-import { MenuItem, QuickAction } from "./types";
+import { MenuItem, QuickAction, Slider, TTSFormValues } from "./types";
+import * as z from "zod";
+import { formOptions } from "@tanstack/react-form";
 
 export const mainMenuItems: MenuItem[] = [
   {
@@ -39,7 +41,7 @@ export const otherMenuItems = (clerk: any): MenuItem[] => [
   },
   {
     title: "Help and Support",
-    url: "mailto:cunningsap002+resonancesupport@gmail.com",
+    url: SUPPORT_EMAIL_LINK,
     icon: Headphones,
   },
 ];
@@ -84,3 +86,75 @@ export const quickActions: QuickAction[] = [
     href: "/text-to-speech?text=Close your eyes and take a deep breath in. Hold it gently... and release. Feel the weight of the day slowly melting away. With each breath, you're sinking deeper into calm. There is nowhere else you need to be. Just here. Just now. Breathe in peace, breathe out tension.",
   },
 ];
+
+export const PRICE_PER_UNIT = 0.007;
+export const SUPPORT_EMAIL_LINK =
+  "mailto:cunningsap002+resonancesupport@gmail.com";
+
+export const sliders: Slider[] = [
+  {
+    id: "temperature",
+    label: "Creativity",
+    leftLabel: "Consistent",
+    rightLabel: "Expressive",
+    min: 0,
+    max: 2,
+    step: 0.1,
+    defaultValue: 0.8,
+  },
+  {
+    id: "topP",
+    label: "Voice Variety",
+    leftLabel: "Stable",
+    rightLabel: "Dynamic",
+    min: 0,
+    max: 1,
+    step: 0.05,
+    defaultValue: 0.95,
+  },
+  {
+    id: "topK",
+    label: "Expression Range",
+    leftLabel: "Subtle",
+    rightLabel: "Dramatic",
+    min: 1,
+    max: 10000,
+    step: 100,
+    defaultValue: 1000,
+  },
+  {
+    id: "repetitionPenalty",
+    label: "Natural Flow",
+    leftLabel: "Rhythmic",
+    rightLabel: "Varied",
+    min: 1,
+    max: 2,
+    step: 0.1,
+    defaultValue: 1.2,
+  },
+];
+
+export const ttsFormSchema = z.object({
+  text: z.string().min(1, "Please enter some text..."),
+  voiceId: z.string().min(1, "Please select a voice..."),
+  temperature: z.number(),
+  topP: z.number(),
+  topK: z.number(),
+  repetitionPenalty: z.number(),
+});
+
+export const defaultTTSValues: TTSFormValues = {
+  text: "",
+  voiceId: "",
+  temperature: 0.8,
+  topP: 0.95,
+  topK: 1000,
+  repetitionPenalty: 1.2,
+};
+
+export const ttsFormOptions = formOptions({
+  defaultValues: defaultTTSValues,
+});
+
+export const tabTriggerClassName =
+  "flex-1 h-full gap-2 bg-transparent rounded-none border-x-0 border-t-0 border-b-px border-b-transparent shadow-none data-[state=active]:border-b-foreground group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none";

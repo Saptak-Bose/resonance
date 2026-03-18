@@ -1,6 +1,11 @@
 import { OrganizationList } from "@clerk/nextjs";
+import type { Metadata } from "next";
 
 type Props = object;
+
+export const metadata: Metadata = {
+  title: "Select Organization",
+};
 
 export default function OrgSelectionPage({}: Props) {
   return (

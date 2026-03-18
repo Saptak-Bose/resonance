@@ -1,6 +1,11 @@
 import { SignUp } from "@clerk/nextjs";
+import type { Metadata } from "next";
 
 type Props = object;
+
+export const metadata: Metadata = {
+  title: "Sign Up",
+};
 
 export default function SignUpPage({}: Props) {
   return (

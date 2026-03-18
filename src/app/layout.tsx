@@ -14,7 +14,7 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: {
     default: "Resonance",
-    template: "%s | Resonance",
+    template: "%s - Resonance",
   },
   description: "AI-powered text-to-speech and voice cloning platform",
 };
