@@ -1,6 +1,8 @@
 import { LucideIcon } from "lucide-react";
 import * as z from "zod";
 import { ttsFormSchema } from "./constants";
+import { appRouter } from "@/trpc/routers/_app";
+import type { VoiceCategory } from "@/generated/prisma/client";
 
 export type MenuItem = {
   title: string;
@@ -34,3 +36,16 @@ export type Slider = {
 };
 
 export type TTSFormValues = z.infer<typeof ttsFormSchema>;
+export type AppRouter = typeof appRouter;
+
+export type UploadAudioOptions = {
+  buffer: Buffer;
+  key: string;
+  contentType?: string;
+};
+
+export type VoiceMetadata = {
+  description: string;
+  category: VoiceCategory;
+  language: string;
+};
