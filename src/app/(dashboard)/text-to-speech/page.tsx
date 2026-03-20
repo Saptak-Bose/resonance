@@ -1,12 +1,26 @@
 import TextToSpeechView from "@/features/text-to-speech/views/text-to-speech-view";
+import { HydrateClient, prefetch, trpc } from "@/trpc/server";
 import type { Metadata } from "next";
 
-type Props = object;
+type Props = {
+  searchParams: Promise<{
+    text?: string;
+    voiceId?: string;
+  }>;
+};
 
 export const metadata: Metadata = {
   title: "Text to Speech",
 };
 
-export default function TextToSpeechPage({}: Props) {
-  return <TextToSpeechView />;
+export default async function TextToSpeechPage({ searchParams }: Props) {
+  const { text, voiceId } = await searchParams;
+
+  prefetch(trpc.voices.getAll.queryOptions());
+
+  return (
+    <HydrateClient>
+      <TextToSpeechView initialValues={{ text, voiceId }} />
+    </HydrateClient>
+  );
 }
