@@ -6,16 +6,18 @@ import { ReactNode, useState } from "react";
 import { createTRPCClient, httpBatchLink } from "@trpc/client";
 import { createTRPCContext } from "@trpc/tanstack-react-query";
 import { AppRouter } from "@/lib/types";
+import superjson from "superjson";
 
 export const { TRPCProvider, useTRPC } = createTRPCContext<AppRouter>();
 
 let browserQueryClient: QueryClient;
-function getQueryClient() {
+
+const getQueryClient = () => {
   if (typeof window === "undefined") return makeQueryClient();
   if (!browserQueryClient) browserQueryClient = makeQueryClient();
 
   return browserQueryClient;
-}
+};
 
 const getUrl = () => {
   const base = (() => {
@@ -35,6 +37,7 @@ export const TRPCReactProvider = (props: { children: Readonly<ReactNode> }) => {
     createTRPCClient<AppRouter>({
       links: [
         httpBatchLink({
+          transformer: superjson,
           url: getUrl(),
         }),
       ],

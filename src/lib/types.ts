@@ -3,6 +3,7 @@ import * as z from "zod";
 import { ttsFormSchema } from "./constants";
 import { appRouter } from "@/trpc/routers/_app";
 import type { VoiceCategory } from "@/generated/prisma/client";
+import { inferRouterOutputs } from "@trpc/server";
 
 export type MenuItem = {
   title: string;
@@ -48,4 +49,13 @@ export type VoiceMetadata = {
   description: string;
   category: VoiceCategory;
   language: string;
+};
+
+export type TTSVoiceItem =
+  inferRouterOutputs<AppRouter>["voices"]["getAll"]["custom"][number];
+
+export type TTSVoicesContextValue = {
+  customVoices: TTSVoiceItem[];
+  systemVoices: TTSVoiceItem[];
+  allVoices: TTSVoiceItem[];
 };
