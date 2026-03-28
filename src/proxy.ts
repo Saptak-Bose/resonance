@@ -3,11 +3,13 @@ import { NextResponse } from "next/server";
 
 const isPublicRoute = createRouteMatcher(["/sign-up(.*)", "/sign-in(.*)"]);
 const isOrgSelectionRoute = createRouteMatcher(["/org-selection(.*)"]);
+const isApiRoute = createRouteMatcher(["/api(.*)"]);
 
 export default clerkMiddleware(async (auth, req) => {
   const { userId, orgId } = await auth();
 
   if (isPublicRoute(req)) return NextResponse.next();
+  if (isApiRoute(req)) return NextResponse.next();
   if (!userId) await auth.protect();
   if (isOrgSelectionRoute(req)) return NextResponse.next();
 
