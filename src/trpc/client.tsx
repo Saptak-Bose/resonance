@@ -14,15 +14,15 @@ let browserQueryClient: QueryClient;
 
 const getQueryClient = () => {
   if (typeof window === "undefined") return makeQueryClient();
-  if (!browserQueryClient) browserQueryClient = makeQueryClient();
+  if (!browserQueryClient) return browserQueryClient = makeQueryClient();
 
   return browserQueryClient;
 };
 
 const getUrl = () => {
   const base = (() => {
-    if (typeof window !== "undefined") return "";
-    if (process.env.APP_URL) return process.env.APP_URL;
+    if (typeof window !== "undefined") return window.location.origin;
+    if (process.env.NEXT_PUBLIC_APP_URL) return process.env.NEXT_PUBLIC_APP_URL;
 
     return "http://localhost:3000";
   })();
@@ -39,6 +39,21 @@ export const TRPCReactProvider = (props: { children: Readonly<ReactNode> }) => {
         httpBatchLink({
           transformer: superjson,
           url: getUrl(),
+          fetch: async (input, init) => {
+            const response = await fetch(input, init);
+            const contentType = response.headers.get("content-type") || "unknown";
+
+            if (!response.ok || !contentType.includes("application/json")) {
+              console.error("tRPC unexpected response", {
+                url: typeof input === "string" ? input : input.toString(),
+                status: response.status,
+                statusText: response.statusText,
+                contentType,
+              });
+            }
+
+            return response;
+          },
         }),
       ],
     }),

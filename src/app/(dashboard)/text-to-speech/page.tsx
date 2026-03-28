@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 export default async function TextToSpeechPage({ searchParams }: Props) {
   const { text, voiceId } = await searchParams;
 
-  prefetch(trpc.voices.getAll.queryOptions());
+  await Promise.allSettled([prefetch(trpc.voices.getAll.queryOptions())]);
 
   return (
     <HydrateClient>

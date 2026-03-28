@@ -4,6 +4,7 @@ import { ttsFormSchema } from "./constants";
 import { appRouter } from "@/trpc/routers/_app";
 import type { VoiceCategory } from "@/generated/prisma/client";
 import { inferRouterOutputs } from "@trpc/server";
+import { RefObject } from "react";
 
 export type MenuItem = {
   title: string;
@@ -58,4 +59,27 @@ export type TTSVoicesContextValue = {
   customVoices: TTSVoiceItem[];
   systemVoices: TTSVoiceItem[];
   allVoices: TTSVoiceItem[];
+};
+
+export type VoicePreviewPanelVoice = {
+  id?: string;
+  name: string;
+};
+
+export type UseWaveSurferOptions = {
+  url?: string;
+  autoplay?: boolean;
+  onReady?: () => void;
+  onError?: (error: Error) => void;
+};
+
+export type UseWaveSurferReturn = {
+  containerRef: RefObject<HTMLDivElement | null>;
+  isPlaying: boolean;
+  isReady: boolean;
+  currentTime: number;
+  duration: number;
+  togglePlayPause: () => void;
+  seekForward: (seconds?: number) => void;
+  seekBackward: (seconds?: number) => void;
 };
