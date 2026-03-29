@@ -83,3 +83,9 @@ export type UseWaveSurferReturn = {
   seekForward: (seconds?: number) => void;
   seekBackward: (seconds?: number) => void;
 };
+
+export type PromptSuggestion = {
+  label: string;
+  prompt: string;
+  icon: LucideIcon;
+};

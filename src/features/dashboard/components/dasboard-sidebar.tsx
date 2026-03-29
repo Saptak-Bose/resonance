@@ -17,10 +17,31 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { mainMenuItems, otherMenuItems as omi } from "@/lib/constants";
 import { NavSectionProps } from "@/lib/types";
-import { OrganizationSwitcher, useClerk, UserButton } from "@clerk/nextjs";
+import { useClerk } from "@clerk/nextjs";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+
+const OrganizationSwitcherNoSSR = dynamic(
+  () => import("@clerk/nextjs").then((mod) => mod.OrganizationSwitcher),
+  {
+    ssr: false,
+    loading: () => (
+      <Skeleton className="h-8.5 w-full group-data-[collapsible=icon]:size-8 rounded-md border bg-white" />
+    ),
+  },
+);
+
+const UserButtonNoSSR = dynamic(
+  () => import("@clerk/nextjs").then((mod) => mod.UserButton),
+  {
+    ssr: false,
+    loading: () => (
+      <Skeleton className="h-8.5 w-full group-data-[collapsible=icon]:size-8 rounded-md border border-border bg-white" />
+    ),
+  },
+);
 
 type Props = object;
 
@@ -92,7 +113,7 @@ export default function DashboardSidebar({}: Props) {
         </div>
         <SidebarMenu>
           <SidebarMenuItem>
-            <OrganizationSwitcher
+            <OrganizationSwitcherNoSSR
               hidePersonal
               fallback={
                 <Skeleton className="h-8.5 w-full group-data-[collapsible=icon]:size-8 rounded-md border bg-white" />
@@ -125,7 +146,7 @@ export default function DashboardSidebar({}: Props) {
       <SidebarFooter className="gap-3 py-3">
         <SidebarMenu>
           <SidebarMenuItem>
-            <UserButton
+            <UserButtonNoSSR
               showName
               fallback={
                 <Skeleton className="h-8.5 w-full group-data-[collapsible=icon]:size-8 rounded-md border border-border bg-white" />
@@ -137,9 +158,10 @@ export default function DashboardSidebar({}: Props) {
                   userButtonTrigger:
                     "w-full! justify-between! bg-white! border! border-border! rounded-md! pl-1! pr-2! py-1! group-data-[collapsible=icon]:w-auto! group-data-[collapsible=icon]:p-1! shadow-[0px_1px_1.5px_0px_rgba(44,54,53,0.03)]! group-data-[collapsible=icon]:after:hidden! [--border:color-mix(in_srgb,transparent,var(--clerk-color-neutral,#000000)_15%)]!",
                   userButtonBox: "flex-row-reverse! gap-2!",
-                  userButtonOuterIdentifier: "text-[16px]! tracking-tight! font-medium! text-foreground! pl-0! group-data-[collapsible=icon]:hidden!",
-                  userButtonAvatarBox: "size-6!"
-                }
+                  userButtonOuterIdentifier:
+                    "text-[16px]! tracking-tight! font-medium! text-foreground! pl-0! group-data-[collapsible=icon]:hidden!",
+                  userButtonAvatarBox: "size-6!",
+                },
               }}
             />
           </SidebarMenuItem>

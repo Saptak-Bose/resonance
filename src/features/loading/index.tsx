@@ -4,7 +4,7 @@ type Props = object;
 
 export default function Loading({}: Props) {
   return (
-    <div className="flex min-h-[80vh] items-center justify-center">
+    <div className="flex min-h-screen items-center justify-center">
       <Loader />
     </div>
   );
