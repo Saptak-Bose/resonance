@@ -14,6 +14,7 @@ export default async function TextToSpeechDetailPage({ params }: Props) {
         id: generationId,
       }),
     ),
+    prefetch(trpc.voices.getAll.queryOptions()),
     prefetch(trpc.generations.getAll.queryOptions()),
   ]);
 
