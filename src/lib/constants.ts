@@ -25,6 +25,8 @@ import type {
 import * as z from "zod";
 import { formOptions } from "@tanstack/react-form";
 import type { VoiceCategory } from "@/generated/prisma/client";
+import { createSearchParamsCache, parseAsString } from "nuqs/server";
+import locales from "locale-codes";
 
 export const mainMenuItems: MenuItem[] = [
   {
@@ -380,3 +382,40 @@ export const PROMPT_SUGGESTIONS: PromptSuggestion[] = [
     icon: Brain,
   },
 ];
+
+export const voicesSearchParams = {
+  query: parseAsString.withDefault(""),
+};
+
+export const voicesSearchParamsCache =
+  createSearchParamsCache(voicesSearchParams);
+
+export const createVoiceSchema = z.object({
+  name: z.string().min(1, "Voice name is required..."),
+  category: z.enum(VOICE_CATEGORIES as [VoiceCategory, ...VoiceCategory[]]),
+  language: z.string().min(1, "Language is required..."),
+  description: z.string().nullish(),
+});
+
+export const MAX_UPLOAD_SIZE_BYTES = 20 * 1024 * 1024;
+export const MIN_AUDIO_DURATION_SECONDS = 10;
+
+export const LANGUAGE_OPTIONS = locales.all
+  .filter((l) => l.tag && l.tag.includes("-") && l.name)
+  .map((l) => ({
+    value: l.tag,
+    label: l.location ? `${l.name} (${l.location})` : l.name,
+  }));
+
+export const voiceCreateFormSchema = z.object({
+  name: z.string().min(1, "Voice name is required..."),
+  file: z
+    .instanceof(File, {
+      message: "Audio file is required...",
+    })
+    .nullable()
+    .refine((f) => f !== null, "Audio file is required..."),
+  category: z.string().min(1, "Category is required..."),
+  language: z.string().min(1, "Language is required..."),
+  description: z.string(),
+});

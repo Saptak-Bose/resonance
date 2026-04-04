@@ -9,9 +9,8 @@ import { useQueries } from "@tanstack/react-query";
 import TTSVoicesProvider from "../contexts/tts-voices-context";
 import VoicePreviewPanel from "../components/voice-preview-panel";
 import VoicePreviewMobile from "../components/voice-preview-mobile";
-import { Spinner } from "@/components/ui/spinner";
 import { useEffect } from "react";
-import { Badge } from "@/components/ui/badge";
+import TextToSpeechDetailSkeleton from "../components/text-to-speech-detail-skeleton";
 
 type Props = {
   generationId: string;
@@ -57,17 +56,7 @@ export default function TextToSpeechDetailView({ generationId }: Props) {
   });
 
   if (generationQuery.isPending || voicesQuery.isPending)
-    return (
-      <div className="flex min-h-[80vh] items-center justify-center">
-        <Badge
-          variant={"outline"}
-          className="gap-2 bg-background/90 px-3 py-1.5 text-sm text-foreground shadow-sm"
-        >
-          <Spinner className="size-5" />
-          <span>Processing...</span>
-        </Badge>
-      </div>
-    );
+    return <TextToSpeechDetailSkeleton />;
 
   const generationErrorCode =
     generationQuery.error &&
@@ -87,31 +76,10 @@ export default function TextToSpeechDetailView({ generationId }: Props) {
     generationErrorCode === "UNAUTHORIZED" ||
     voicesErrorCode === "UNAUTHORIZED"
   )
-    return (
-      <div className="flex min-h-[80vh] items-center justify-center">
-        <Badge
-          variant={"outline"}
-          className="gap-2 bg-background/90 px-3 py-1.5 text-sm text-foreground shadow-sm"
-        >
-          <span>Please sign in to access this generation...</span>
-        </Badge>
-      </div>
-    );
+    return <TextToSpeechDetailSkeleton />;
 
   if (generationQuery.isError || voicesQuery.isError || !generationQuery.data)
-    return (
-      <div className="flex min-h-[80vh] items-center justify-center">
-        <Badge
-          variant={"outline"}
-          className="gap-2 bg-background/90 px-3 py-1.5 text-sm text-foreground shadow-sm"
-        >
-          <span>
-            Sorry...We are unable to access this generation for the time
-            being...
-          </span>
-        </Badge>
-      </div>
-    );
+    return <TextToSpeechDetailSkeleton />;
 
   const data = generationQuery.data;
   const { custom: customVoices, system: systemVoices } = voicesQuery.data;
